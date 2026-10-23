@@ -1,0 +1,20 @@
+{
+  "name": "kilo-athletics-brutalist-gym",
+  "version": "1.0.0",
+  "description": "High-performance brutalist-industrial strength & conditioning gym website with Three.js and GSAP ScrollTrigger",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "brutalist",
+    "gym",
+    "threejs",
+    "gsap",
+    "scrolltrigger",
+    "lenis",
+    "webgl"
+  ],
+  "license": "MIT"
+}

@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KILO // 01 — Brutalist Strength & Conditioning Lab</title>
+  <meta name="description" content="Lift a little more than last time. Technical strength & conditioning facility built on raw athletics, calibrated steel, and progressive overload." />
+
+  <!-- Google Fonts: Space Grotesk, Syne, JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;0,800;1,400&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="./styles.css" />
+
+  <!-- Import Map for Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+      }
+    }
+  </script>
+
+  <!-- GSAP & ScrollTrigger & Lenis Smooth Scroll -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js" defer></script>
+</head>
+<body>
+  <!-- Subtle Concrete / Chalk Grain Texture Overlay -->
+  <div class="chalk-grain-overlay" aria-hidden="true"></div>
+
+  <!-- Architectural Swiss Grid Guide Lines -->
+  <div class="swiss-grid-lines" aria-hidden="true">
+    <span></span><span></span><span></span><span></span>
+  </div>
+
+  <!-- Top Olympic Bumper Plate Scroll Progress Bar -->
+  <div class="scroll-plate-progress" aria-hidden="true">
+    <div class="scroll-plate-fill" id="scroll-progress-bar"></div>
+  </div>
+
+  <!-- =====================================================================
+       2. GLOBAL NAVIGATION & HEADER
+       ===================================================================== -->
+  <header class="site-header" id="site-header">
+    <div class="header-inner">
+      <!-- Left: Gym Logo + Live Barbell Telemetry Pill -->
+      <div class="header-brand-group">
+        <a href="#home" class="brand-logo" aria-label="KILO 01 Home">
+          <span class="brand-plates" aria-hidden="true">
+            <i class="p-white"></i>
+            <i class="p-green"></i>
+            <i class="p-yellow"></i>
+            <i class="p-blue"></i>
+            <i class="p-red"></i>
+          </span>
+          <span class="brand-text">KILO<span class="brand-slash">//</span>01</span>
+        </a>
+        <div class="header-live-load" id="header-live-load" title="Current Barbell Load Telemetry">
+          <span class="pulse-dot"></span>
+          <span class="mono-label">LOAD:</span>
+          <strong id="nav-weight-readout">20 KG</strong>
+        </div>
+      </div>
+
+      <!-- Center: Navigation Links -->
+      <nav class="header-nav" id="header-nav" aria-label="Primary Navigation">
+        <a href="#home" class="nav-link active" data-section="home">Home</a>
+        <a href="#assess" class="nav-link" data-section="assess">Assess</a>
+        <a href="#programs" class="nav-link" data-section="programs">Programs</a>
+        <a href="#the-floor" class="nav-link" data-section="the-floor">The Floor</a>
+        <a href="#contact" class="nav-link" data-section="contact">Contact</a>
+      </nav>
+
+      <!-- Right: Sound Toggle + Pill-style Log In (Ghost) & Sign Up (Solid Black) -->
+      <div class="header-actions">
+        <button type="button" class="btn-sfx" id="btn-sfx-toggle" aria-pressed="false" title="Toggle mechanical barbell clank audio">
+          <span class="sfx-indicator"></span>
+          <span id="sfx-label">SFX: OFF</span>
+        </button>
+        <button type="button" class="btn-pill btn-pill-ghost" data-auth-trigger="login">Log In</button>
+        <button type="button" class="btn-pill btn-pill-solid" data-auth-trigger="signup">Sign Up</button>
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Toggle Menu" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================================
+         3A & 4A. HERO SECTION & SCROLL-DRIVEN BARBELL LOAD
+         ===================================================================== -->
+    <section class="hero-scroll-runway" id="home">
+      <div class="hero-sticky-viewport" id="hero-sticky-viewport">
+
+        <!-- Technical Top Spec Strip -->
+        <div class="hero-spec-strip">
+          <div class="spec-item">
+            <span class="spec-key">FACILITY REF //</span>
+            <span class="spec-val">KILO-LAB-ZURICH-01</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-key">SHAFT SPEC //</span>
+            <span class="spec-val">28MM · 215,000 PSI · IWF KNURL</span>
+          </div>
+          <div class="spec-item">
+            <span class="spec-key">SCROLL TELEMETRY //</span>
+            <span class="spec-val" id="hero-scroll-pct">000% — SLEEVE READY</span>
+          </div>
+        </div>
+
+        <!-- Main Hero Editorial Grid -->
+        <div class="hero-main-grid">
+          <div class="hero-headline-col">
+            <div class="eyebrow-tag">
+              <span class="tag-index">01 // RAW ATHLETICS</span>
+              <span class="tag-divider">—</span>
+              <span>PROGRESSIVE OVERLOAD ARCHITECTURE</span>
+            </div>
+            <h1 class="hero-title">
+              Lift a little more<br />
+              <span class="title-stroke">than last time.</span>
+            </h1>
+            <p class="hero-subcopy">
+              Uncompromising strength &amp; conditioning engineered around calibrated steel, biomechanics, and measurable daily progression. Scroll to load the sleeves.
+            </p>
+          </div>
+
+          <!-- Dynamic Digital Weight Counter Readout -->
+          <div class="hero-counter-col">
+            <div class="digital-load-module" id="digital-load-module">
+              <div class="module-top-bar">
+                <span class="module-code">SYS.LOAD // TELEMETRY</span>
+                <span class="module-state-badge" id="barbell-state-badge">EMPTY BAR</span>
+              </div>
+
+              <div class="digital-weight-display" aria-live="polite">
+                <span class="weight-number" id="barbell-weight-number">20</span>
+                <div class="weight-unit-stack">
+                  <span class="weight-unit">KG</span>
+                  <span class="weight-lbs" id="barbell-weight-lbs">44.1 LBS</span>
+                </div>
+              </div>
+
+              <div class="weight-caption-row">
+                <span id="barbell-weight-desc">20 kg / Empty Olympic Bar (Men's 28mm)</span>
+              </div>
+
+              <!-- Interactive Weight Stage Pills (Click or Scroll) -->
+              <div class="load-stage-pills" role="group" aria-label="Barbell Load Stages">
+                <button type="button" class="stage-pill active" data-target-weight="20" data-stage-index="0">
+                  <span class="pill-dot dot-steel"></span>20kg
+                </button>
+                <button type="button" class="stage-pill" data-target-weight="30" data-stage-index="1">
+                  <span class="pill-dot dot-white"></span>30kg
+                </button>
+                <button type="button" class="stage-pill" data-target-weight="50" data-stage-index="2">
+                  <span class="pill-dot dot-green"></span>50kg
+                </button>
+                <button type="button" class="stage-pill" data-target-weight="80" data-stage-index="3">
+                  <span class="pill-dot dot-yellow"></span>80kg
+                </button>
+                <button type="button" class="stage-pill" data-target-weight="120" data-stage-index="4">
+                  <span class="pill-dot dot-blue"></span>120kg
+                </button>
+                <button type="button" class="stage-pill" data-target-weight="180" data-stage-index="5">
+                  <span class="pill-dot dot-red"></span>180kg
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Centerpiece 3D Barbell Stage + Chalk Dust Particle Burst Canvas -->
+        <div class="barbell-stage-wrapper" id="barbell-stage-wrapper">
+          <!-- Architectural Crosshair / Datum Lines -->
+          <div class="stage-datum-line horizontal" aria-hidden="true"></div>
+          <div class="stage-datum-line vertical" aria-hidden="true"></div>
+
+          <div class="stage-corner-label top-left">SLEEVE L // IWF CALIBRATED</div>
+          <div class="stage-corner-label top-right">SLEEVE R // IWF CALIBRATED</div>
+          <div class="stage-corner-label bottom-left" id="active-plates-formula">STACK: [ BAR 20KG ]</div>
+          <div class="stage-corner-label bottom-right">
+            <button type="button" class="btn-chalk-burst" id="btn-drop-bar">
+              ↺ DROP BAR &amp; CHALK BURST
+            </button>
+          </div>
+
+          <!-- 3D WebGL Barbell Canvas -->
+          <canvas id="barbell-canvas" aria-label="Interactive 3D Olympic Barbell with Bumper Plates"></canvas>
+          <!-- 2D Chalk Particle Burst Overlay Canvas -->
+          <canvas id="chalk-canvas" aria-hidden="true"></canvas>
+
+          <!-- Visual Plate Stack Inventory Strip -->
+          <div class="plate-inventory-bar" aria-label="Olympic Bumper Plate Key">
+            <div class="plate-chip" data-plate="5" id="chip-5kg">
+              <span class="chip-swatch swatch-white"></span>
+              <span class="chip-text">5KG WHITE (×2)</span>
+            </div>
+            <div class="plate-chip" data-plate="10" id="chip-10kg">
+              <span class="chip-swatch swatch-green"></span>
+              <span class="chip-text">10KG GREEN (×2)</span>
+            </div>
+            <div class="plate-chip" data-plate="15" id="chip-15kg">
+              <span class="chip-swatch swatch-yellow"></span>
+              <span class="chip-text">15KG YELLOW (×2)</span>
+            </div>
+            <div class="plate-chip" data-plate="20" id="chip-20kg">
+              <span class="chip-swatch swatch-blue"></span>
+              <span class="chip-text">20KG BLUE (×2)</span>
+            </div>
+            <div class="plate-chip" data-plate="25" id="chip-25kg">
+              <span class="chip-swatch swatch-red"></span>
+              <span class="chip-text">25KG RED + COLLARS (×2)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bottom Sub-Grid: 4-Step Training Methodology Summary -->
+        <div class="hero-methodology-grid" aria-label="4-Step Training Methodology">
+          <article class="method-step-card" data-step="1">
+            <div class="method-step-top">
+              <span class="method-num">1. Assess</span>
+              <span class="method-plate-dot dot-white"></span>
+            </div>
+            <p class="method-desc">Force-plate isometric diagnostics, bar-path velocity profiling, and joint torque baseline mapping.</p>
+          </article>
+
+          <article class="method-step-card" data-step="2">
+            <div class="method-step-top">
+              <span class="method-num">2. Load</span>
+              <span class="method-plate-dot dot-green"></span>
+            </div>
+            <p class="method-desc">Precision micro-loading with IWF-calibrated bumper and steel increments tailored to daily readiness.</p>
+          </article>
+
+          <article class="method-step-card" data-step="3">
+            <div class="method-step-top">
+              <span class="method-num">3. Repeat</span>
+              <span class="method-plate-dot dot-blue"></span>
+            </div>
+            <p class="method-desc">High-intent neuromuscular execution under strict biomechanical tempo and rest-interval governance.</p>
+          </article>
+
+          <article class="method-step-card" data-step="4">
+            <div class="method-step-top">
+              <span class="method-num">4. Progress</span>
+              <span class="method-plate-dot dot-red"></span>
+            </div>
+            <p class="method-desc">Quantified 1RM block auditing, structural tissue adaptation, and verifiable strength standards.</p>
+          </article>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         ASSESS DIAGNOSTIC LAB & INTERACTIVE PLATE CALCULATOR (#assess)
+         ===================================================================== -->
+    <section class="section-assess" id="assess">
+      <div class="container">
+        <div class="section-header-bar">
+          <div class="section-index-group">
+            <span class="section-index">SEC. 01 // DIAGNOSTICS</span>
+            <h2 class="section-heading">BIOMECHANICAL ASSESSMENT &amp; LOAD CALCULATOR</h2>
+          </div>
+          <div class="section-meta-right">
+            <span>PROTOCOL: IWF-2026-REV4</span>
+            <span>BAR: 20KG + COLLARS</span>
+          </div>
+        </div>
+
+        <div class="assess-grid">
+          <!-- Left: Assessment Protocol Breakdown -->
+          <div class="assess-protocol-panel">
+            <div class="panel-tag">4-PILLAR OPERATING SYSTEM</div>
+            <h3 class="panel-title">Every gram on the sleeve is earned by data.</h3>
+            <p class="panel-lead">
+              Before you touch a loaded platform, our sports scientists capture a 36-point kinetic profile using dual Hawkins Dynamics force plates and linear position transducers.
+            </p>
+
+            <div class="assess-metrics-table">
+              <div class="metric-row">
+                <span class="m-code">01 / VBT</span>
+                <span class="m-name">Mean Concentric Velocity (MCV)</span>
+                <span class="m-spec">0.18 – 1.15 m/s</span>
+              </div>
+              <div class="metric-row">
+                <span class="m-code">02 / DSI</span>
+                <span class="m-name">Dynamic Strength Index (IMTP : CMJ)</span>
+                <span class="m-spec">Target Ratio ≥ 0.80</span>
+              </div>
+              <div class="metric-row">
+                <span class="m-code">03 / ASYM</span>
+                <span class="m-name">Bilateral Force Asymmetry Threshold</span>
+                <span class="m-spec">Tolerance &lt; 4.5%</span>
+              </div>
+              <div class="metric-row">
+                <span class="m-code">04 / RPE</span>
+                <span class="m-name">Autoregulated Load-Velocity Stop</span>
+                <span class="m-spec">20% Velocity Loss Cap</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Interactive Olympic Barbell Plate Calculator -->
+          <div class="plate-calc-panel">
+            <div class="calc-header">
+              <span class="calc-badge">INTERACTIVE TOOL // SLEEVE LOADER</span>
+              <span class="calc-sub">20 KG BAR INCLUDED</span>
+            </div>
+
+            <div class="calc-input-group">
+              <label for="calc-weight-input" class="calc-label">TARGET BARBELL WEIGHT (KG)</label>
+              <div class="calc-controls-row">
+                <button type="button" class="calc-step-btn" id="calc-minus-btn" aria-label="Subtract 10kg">-10</button>
+                <input type="number" id="calc-weight-input" class="calc-number-input" value="140" min="20" max="320" step="5" />
+                <button type="button" class="calc-step-btn" id="calc-plus-btn" aria-label="Add 10kg">+10</button>
+              </div>
+              <div class="calc-presets">
+                <button type="button" class="calc-preset-chip" data-calc-preset="60">60 KG</button>
+                <button type="button" class="calc-preset-chip" data-calc-preset="100">100 KG</button>
+                <button type="button" class="calc-preset-chip active" data-calc-preset="140">140 KG</button>
+                <button type="button" class="calc-preset-chip" data-calc-preset="180">180 KG</button>
+                <button type="button" class="calc-preset-chip" data-calc-preset="220">220 KG</button>
+              </div>
+            </div>
+
+            <!-- Visual 2D Sleeve Schematic -->
+            <div class="calc-sleeve-visualizer">
+              <div class="calc-sleeve-label">PER-SLEEVE PLATE STACK (LEFT / RIGHT)</div>
+              <div class="calc-sleeve-graphic" id="calc-sleeve-graphic">
+                <!-- Populated dynamically by main.js -->
+              </div>
+              <div class="calc-Plate-summary" id="calc-plate-summary">
+                PER SIDE: 2×25KG RED + 1×10KG GREEN
+              </div>
+            </div>
+
+            <!-- Warmup Ramp Sets Table -->
+            <div class="calc-warmup-strip" id="calc-warmup-strip">
+              <div class="warmup-cell">
+                <span class="w-pct">50% WARM</span>
+                <strong class="w-val" id="w-50">70 KG</strong>
+              </div>
+              <div class="warmup-cell">
+                <span class="w-pct">70% BUILD</span>
+                <strong class="w-val" id="w-70">98 KG</strong>
+              </div>
+              <div class="warmup-cell">
+                <span class="w-pct">85% OPENER</span>
+                <strong class="w-val" id="w-85">119 KG</strong>
+              </div>
+              <div class="warmup-cell">
+                <span class="w-pct">100% WORK</span>
+                <strong class="w-val" id="w-100">140 KG</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4B. PROGRAMS GRID ("Programs")
+         ===================================================================== -->
+    <section class="section-programs" id="programs">
+      <div class="container">
+        <div class="section-header-bar">
+          <div class="section-index-group">
+            <span class="section-index">SEC. 02 // CURRICULUM</span>
+            <h2 class="section-heading">ENGINEERED TRAINING PROGRAMS</h2>
+          </div>
+          <div class="program-filter-pills" role="tablist" aria-label="Filter Programs">
+            <button type="button" class="prog-filter-btn active" data-filter="all">ALL BLOCKS [04]</button>
+            <button type="button" class="prog-filter-btn" data-filter="strength">STRENGTH</button>
+            <button type="button" class="prog-filter-btn" data-filter="olympic">OLYMPIC</button>
+            <button type="button" class="prog-filter-btn" data-filter="conditioning">CONDITIONING</button>
+          </div>
+        </div>
+
+        <!-- 4 Modular Concrete-Card Layouts with Technical Blueprints -->
+        <div class="programs-grid" id="programs-grid">
+
+          <!-- CARD 01: Strength Foundations -->
+          <article class="program-card" data-category="strength" data-program-id="01">
+            <div class="card-plate-stripe stripe-blue"></div>
+            <div class="card-top-meta">
+              <span class="card-number">01</span>
+              <div class="card-tags">
+                <span class="card-tag">POWERLIFTING // SBD</span>
+                <span class="card-tag tag-mono">12-WEEK CYCLE</span>
+              </div>
+            </div>
+
+            <h3 class="card-title">Strength Foundations</h3>
+            <p class="card-description">
+              Structural mastery of the Squat, Bench Press, and Deadlift. Linear and undulating block periodization calibrated via real-time bar velocity.
+            </p>
+
+            <!-- Technical SVG Blueprint -->
+            <div class="card-blueprint" aria-hidden="true">
+              <div class="blueprint-header">
+                <span>FIG 01.A // FORCE-VELOCITY CURVE</span>
+                <span>INTENSITY: 75–95% 1RM</span>
+              </div>
+              <svg viewBox="0 0 360 130" class="blueprint-svg">
+                <defs>
+                  <pattern id="bpGrid1" width="18" height="18" patternUnits="userSpaceOnUse">
+                    <path d="M 18 0 L 0 0 0 18" fill="none" stroke="currentColor" stroke-width="0.4" stroke-opacity="0.25"/>
+                  </pattern>
+                </defs>
+                <rect width="360" height="130" fill="url(#bpGrid1)" />
+                <!-- Axes -->
+                <line x1="28" y1="15" x2="28" y2="112" stroke="currentColor" stroke-width="1.2"/>
+                <line x1="28" y1="112" x2="340" y2="112" stroke="currentColor" stroke-width="1.2"/>
+                <!-- Hyperbolic Force-Velocity Curve -->
+                <path d="M 38 24 Q 115 92 325 104" fill="none" stroke="#0052CC" stroke-width="2.5"/>
+                <!-- Data nodes -->
+                <circle cx="58" cy="39" r="4" fill="#D92626"/>
+                <circle cx="128" cy="72" r="4" fill="#0052CC"/>
+                <circle cx="220" cy="94" r="4" fill="#008751"/>
+                <!-- Barbell cross-section schematic -->
+                <g transform="translate(245, 22)">
+                  <rect x="0" y="18" width="80" height="4" fill="currentColor"/>
+                  <rect x="8" y="4" width="6" height="32" fill="#D92626"/>
+                  <rect x="16" y="6" width="5" height="28" fill="#0052CC"/>
+                  <rect x="59" y="6" width="5" height="28" fill="#0052CC"/>
+                  <rect x="66" y="4" width="6" height="32" fill="#D92626"/>
+                </g>
+                <text x="36" y="20" font-family="JetBrains Mono" font-size="8" fill="currentColor">MAX FORCE (N)</text>
+                <text x="255" y="124" font-family="JetBrains Mono" font-size="8" fill="currentColor">VELOCITY (M/S) →</text>
+              </svg>
+            </div>
+
+            <dl class="card-specs-list">
+              <div>
+                <dt>FREQUENCY</dt>
+                <dd>4 Sessions / Wk</dd>
+              </div>
+              <div>
+                <dt>LOAD RANGE</dt>
+                <dd>72.5% – 97.5%</dd>
+              </div>
+              <div>
+                <dt>CADENCE</dt>
+                <dd>3-1-X-1 Tempo</dd>
+              </div>
+            </dl>
+
+            <div class="card-footer">
+              <span class="card-code">REF // STR-FDN-01</span>
+              <button type="button" class="btn-view-more" data-program-modal="01">
+                <span>View More</span>
+                <span class="btn-arrow">→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- CARD 02: Barbell Club -->
+          <article class="program-card" data-category="olympic" data-program-id="02">
+            <div class="card-plate-stripe stripe-red"></div>
+            <div class="card-top-meta">
+              <span class="card-number">02</span>
+              <div class="card-tags">
+                <span class="card-tag">OLYMPIC WEIGHTLIFTING</span>
+                <span class="card-tag tag-mono">IWF SPECS</span>
+              </div>
+            </div>
+
+            <h3 class="card-title">Barbell Club</h3>
+            <p class="card-description">
+              Technical execution of the Snatch and Clean &amp; Jerk. Triple-extension mechanics, turnover speed under the bar, and overhead receiving stability.
+            </p>
+
+            <!-- Technical SVG Blueprint -->
+            <div class="card-blueprint" aria-hidden="true">
+              <div class="blueprint-header">
+                <span>FIG 02.B // SNATCH S-CURVE TRAJECTORY</span>
+                <span>PEAK POWER: &gt;4,200W</span>
+              </div>
+              <svg viewBox="0 0 360 130" class="blueprint-svg">
+                <rect width="360" height="130" fill="url(#bpGrid1)" />
+                <!-- Vertical plumline -->
+                <line x1="110" y1="10" x2="110" y2="118" stroke="currentColor" stroke-width="1" stroke-dasharray="3 3"/>
+                <!-- S-Curve bar path -->
+                <path d="M 110 112 C 92 85, 128 58, 106 28 C 96 15, 114 14, 112 34" fill="none" stroke="#D92626" stroke-width="2.5"/>
+                <circle cx="110" cy="112" r="3.5" fill="currentColor"/>
+                <circle cx="116" cy="68" r="3.5" fill="#F0B800"/>
+                <circle cx="105" cy="24" r="4" fill="#D92626"/>
+                <!-- Angle telemetry annotations -->
+                <line x1="195" y1="98" x2="245" y2="68" stroke="currentColor" stroke-width="1.5"/>
+                <line x1="245" y1="68" x2="215" y2="32" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="245" cy="68" r="3" fill="#008751"/>
+                <text x="128" y="26" font-family="JetBrains Mono" font-size="8" fill="currentColor">CATCH LOCKOUT</text>
+                <text x="130" y="71" font-family="JetBrains Mono" font-size="8" fill="currentColor">2ND PULL EXT</text>
+                <text x="255" y="72" font-family="JetBrains Mono" font-size="8" fill="currentColor">θ = 168° HIP</text>
+              </svg>
+            </div>
+
+            <dl class="card-specs-list">
+              <div>
+                <dt>FREQUENCY</dt>
+                <dd>5 Sessions / Wk</dd>
+              </div>
+              <div>
+                <dt>PLATFORMS</dt>
+                <dd>8x IWF Oak/Rubber</dd>
+              </div>
+              <div>
+                <dt>BARBELLS</dt>
+                <dd>Needle Bearing</dd>
+              </div>
+            </dl>
+
+            <div class="card-footer">
+              <span class="card-code">REF // OLY-BBC-02</span>
+              <button type="button" class="btn-view-more" data-program-modal="02">
+                <span>View More</span>
+                <span class="btn-arrow">→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- CARD 03: Calisthenics / Conditioning -->
+          <article class="program-card" data-category="conditioning" data-program-id="03">
+            <div class="card-plate-stripe stripe-green"></div>
+            <div class="card-top-meta">
+              <span class="card-number">03</span>
+              <div class="card-tags">
+                <span class="card-tag">KINETIC CONTROL // GPP</span>
+                <span class="card-tag tag-mono">VO2 + TORQUE</span>
+              </div>
+            </div>
+
+            <h3 class="card-title">Calisthenics / Conditioning</h3>
+            <p class="card-description">
+              High-tension gymnastic strength paired with brutal alactic and glycolytic conditioning. Weighted rings, dip belts, 40m prowler sprints, and assault intervals.
+            </p>
+
+            <!-- Technical SVG Blueprint -->
+            <div class="card-blueprint" aria-hidden="true">
+              <div class="blueprint-header">
+                <span>FIG 03.C // LEVER TORQUE &amp; WORK CAPACITY</span>
+                <span>LACTATE: 14 MMOL/L</span>
+              </div>
+              <svg viewBox="0 0 360 130" class="blueprint-svg">
+                <rect width="360" height="130" fill="url(#bpGrid1)" />
+                <!-- Ring straps & lever vector -->
+                <line x1="90" y1="8" x2="90" y2="58" stroke="currentColor" stroke-width="1.5"/>
+                <circle cx="90" cy="64" r="7" fill="none" stroke="#008751" stroke-width="2"/>
+                <line x1="45" y1="64" x2="150" y2="64" stroke="currentColor" stroke-width="2.5"/>
+                <text x="45" y="84" font-family="JetBrains Mono" font-size="8" fill="currentColor">τ = r × F · sin(90°)</text>
+                <!-- Conditioning interval pulse bars -->
+                <g transform="translate(195, 28)">
+                  <rect x="0" y="42" width="12" height="38" fill="#008751"/>
+                  <rect x="20" y="24" width="12" height="56" fill="#008751"/>
+                  <rect x="40" y="10" width="12" height="70" fill="#F0B800"/>
+                  <rect x="60" y="0" width="12" height="80" fill="#D92626"/>
+                  <rect x="80" y="30" width="12" height="50" fill="#0052CC"/>
+                  <rect x="100" y="8" width="12" height="72" fill="#D92626"/>
+                </g>
+              </svg>
+            </div>
+
+            <dl class="card-specs-list">
+              <div>
+                <dt>FREQUENCY</dt>
+                <dd>4–6 Sessions / Wk</dd>
+              </div>
+              <div>
+                <dt>TURF SLED</dt>
+                <dd>40m Dual Lane</dd>
+              </div>
+              <div>
+                <dt>WORK:REST</dt>
+                <dd>1:3 / 1:1 Ratios</dd>
+              </div>
+            </dl>
+
+            <div class="card-footer">
+              <span class="card-code">REF // CAL-CND-03</span>
+              <button type="button" class="btn-view-more" data-program-modal="03">
+                <span>View More</span>
+                <span class="btn-arrow">→</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- CARD 04: Structural Armor & Hypertrophy -->
+          <article class="program-card" data-category="strength" data-program-id="04">
+            <div class="card-plate-stripe stripe-yellow"></div>
+            <div class="card-top-meta">
+              <span class="card-number">04</span>
+              <div class="card-tags">
+                <span class="card-tag">STRUCTURAL HYPERTROPHY</span>
+                <span class="card-tag tag-mono">TENDON DENSITY</span>
+              </div>
+            </div>
+
+            <h3 class="card-title">Structural Armor</h3>
+            <p class="card-description">
+              Myofibrillar density and connective tissue fortification. Heavy eccentric overload, specialty camber bars, posterior-chain machines, and loaded carries.
+            </p>
+
+            <!-- Technical SVG Blueprint -->
+            <div class="card-blueprint" aria-hidden="true">
+              <div class="blueprint-header">
+                <span>FIG 04.D // ECCENTRIC TENSION ENVELOPE</span>
+                <span>TUT: 45–60 SEC/SET</span>
+              </div>
+              <svg viewBox="0 0 360 130" class="blueprint-svg">
+                <rect width="360" height="130" fill="url(#bpGrid1)" />
+                <!-- Tension sawtooth wave -->
+                <polyline points="24,98 75,26 95,98 148,22 168,98 220,18 242,98 295,15 320,98" fill="none" stroke="#F0B800" stroke-width="2.5"/>
+                <line x1="20" y1="55" x2="335" y2="55" stroke="currentColor" stroke-width="0.9" stroke-dasharray="4 4"/>
+                <text x="26" y="48" font-family="JetBrains Mono" font-size="8" fill="currentColor">SUPRAMAXIMAL ECCENTRIC THRESHOLD (105%)</text>
+              </svg>
+            </div>
+
+            <dl class="card-specs-list">
+              <div>
+                <dt>FREQUENCY</dt>
+                <dd>4 Sessions / Wk</dd>
+              </div>
+              <div>
+                <dt>SPECIALTY</dt>
+                <dd>SSB / Trap / Yoke</dd>
+              </div>
+              <div>
+                <dt>VOLUME</dt>
+                <dd>16–22 Sets / Grp</dd>
+              </div>
+            </dl>
+
+            <div class="card-footer">
+              <span class="card-code">REF // ARM-HYP-04</span>
+              <button type="button" class="btn-view-more" data-program-modal="04">
+                <span>View More</span>
+                <span class="btn-arrow">→</span>
+              </button>
+            </div>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         3B & 4C. THE FLOOR (3D Isometric Architectural Cutaway & Hotspots)
+         ===================================================================== -->
+    <section class="section-floor" id="the-floor">
+      <!-- Cross-Section Boundary Transformation Banner -->
+      <div class="floor-section-boundary">
+        <div class="container boundary-inner">
+          <div class="boundary-left">
+            <span class="boundary-tag">STAGE B // ARCHITECTURAL SECTION A–A'</span>
+            <span class="boundary-title">BARBELL BOUNDARY MARKER LOCKED</span>
+          </div>
+          <div class="boundary-line-graphic" aria-hidden="true">
+            <span class="b-plate p-red"></span>
+            <span class="b-plate p-blue"></span>
+            <span class="b-plate p-yellow"></span>
+            <span class="b-plate p-green"></span>
+            <span class="b-plate p-white"></span>
+            <span class="b-shaft"></span>
+            <span class="b-plate p-white"></span>
+            <span class="b-plate p-green"></span>
+            <span class="b-plate p-yellow"></span>
+            <span class="b-plate p-blue"></span>
+            <span class="b-plate p-red"></span>
+          </div>
+          <div class="boundary-right">
+            <span class="boundary-weight-pill">180 kg - Fully Loaded</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="container">
+        <div class="section-header-bar floor-header-bar">
+          <div class="section-index-group">
+            <span class="section-index">SEC. 03 // FACILITY TELEMETRY</span>
+            <h2 class="section-heading">THE FLOOR — 3D ARCHITECTURAL CUTAWAY</h2>
+          </div>
+
+          <!-- Camera Angle & View Mode Controls -->
+          <div class="floor-camera-controls" role="group" aria-label="3D Architectural View Controls">
+            <button type="button" class="cam-btn active" data-cam-view="isometric">ISOMETRIC 3D</button>
+            <button type="button" class="cam-btn" data-cam-view="top">BLUEPRINT TOP</button>
+            <button type="button" class="cam-btn" data-cam-view="low">RACK ELEVATION</button>
+            <button type="button" class="cam-btn" data-cam-wireframe="toggle" id="btn-floor-wireframe">WIREFRAME: OFF</button>
+          </div>
+        </div>
+
+        <!-- 3D Cutaway Interactive Stage -->
+        <div class="floor-stage-grid">
+          <!-- Left / Main 3D Viewport with Projected Hotspot Nodes -->
+          <div class="floor-viewport-box" id="floor-viewport-box">
+            <!-- Top Overlay Telemetry -->
+            <div class="floor-hud-top">
+              <div class="hud-badge">
+                <span class="hud-dot"></span>
+                <span>180 KG — FULLY LOADED // SECTION DATUM +4.20M</span>
+              </div>
+              <div class="hud-coords" id="floor-hud-coords">
+                GRID: 28.0M × 18.0M · SLAB: 450MM REINFORCED CONCRETE
+              </div>
+            </div>
+
+            <!-- WebGL 3D Architectural Cutaway Canvas -->
+            <canvas id="floor-canvas" aria-label="Interactive 3D Isometric Cutaway of The Floor Gym Layout"></canvas>
+
+            <!-- 2D Projected Interactive Hotspot Nodes (Positioned in real-time by floor-scene.js) -->
+            <div class="floor-hotspots-layer" id="floor-hotspots-layer">
+              <button type="button" class="floor-hotspot active" data-zone="racks" id="hotspot-racks" aria-label="Inspect Power Racks Zone">
+                <span class="hotspot-ping"></span>
+                <span class="hotspot-core">01</span>
+                <span class="hotspot-tag">Power Racks</span>
+              </button>
+
+              <button type="button" class="floor-hotspot" data-zone="freeweights" id="hotspot-freeweights" aria-label="Inspect Free Weights Zone">
+                <span class="hotspot-ping"></span>
+                <span class="hotspot-core">02</span>
+                <span class="hotspot-tag">Free Weights</span>
+              </button>
+
+              <button type="button" class="floor-hotspot" data-zone="turf" id="hotspot-turf" aria-label="Inspect Turf Track Zone">
+                <span class="hotspot-ping"></span>
+                <span class="hotspot-core">03</span>
+                <span class="hotspot-tag">Turf Track</span>
+              </button>
+
+              <button type="button" class="floor-hotspot" data-zone="recovery" id="hotspot-recovery" aria-label="Inspect Recovery Lounge Zone">
+                <span class="hotspot-ping"></span>
+                <span class="hotspot-core">04</span>
+                <span class="hotspot-tag">Recovery Lounge</span>
+              </button>
+            </div>
+
+            <!-- Bottom Architectural Scale Bar & Quick Zone Selector -->
+            <div class="floor-hud-bottom">
+              <div class="zone-quick-tabs" role="tablist" aria-label="Select Facility Zone">
+                <button type="button" class="zone-tab active" data-zone-select="racks">01 // POWER RACKS</button>
+                <button type="button" class="zone-tab" data-zone-select="freeweights">02 // FREE WEIGHTS</button>
+                <button type="button" class="zone-tab" data-zone-select="turf">03 // TURF TRACK</button>
+                <button type="button" class="zone-tab" data-zone-select="recovery">04 // RECOVERY LOUNGE</button>
+              </div>
+              <div class="hud-drag-hint">DRAG TO ORBIT · CLICK NODES FOR TELEMETRY</div>
+            </div>
+          </div>
+
+          <!-- Right: Technical Floating Tooltip / Zone Telemetry Card -->
+          <aside class="floor-telemetry-card" id="floor-telemetry-card" aria-live="polite">
+            <div class="telemetry-card-stripe" id="zone-card-stripe"></div>
+
+            <div class="telemetry-header">
+              <span class="telemetry-zone-code" id="zone-code">ZONE 01 // SECTOR NORTH-WEST</span>
+              <span class="telemetry-live-pill">
+                <span class="live-blink"></span>LIVE TELEMETRY
+              </span>
+            </div>
+
+            <h3 class="telemetry-zone-title" id="zone-title">Power Racks</h3>
+            <p class="telemetry-zone-coords" id="zone-coords">COORDS: X +06.40m / Y +00.00m / Z -04.20m · AREA: 185 m²</p>
+
+            <!-- Live Capacity Bar -->
+            <div class="telemetry-capacity-block">
+              <div class="cap-label-row">
+                <span>LIVE ZONE CAPACITY</span>
+                <strong id="zone-capacity-text">06 / 08 PLATFORMS ACTIVE (75%)</strong>
+              </div>
+              <div class="cap-meter-track">
+                <div class="cap-meter-fill" id="zone-capacity-bar" style="width: 75%;"></div>
+              </div>
+            </div>
+
+            <!-- Live Equipment Telemetry -->
+            <div class="telemetry-spec-section">
+              <div class="spec-sec-title">EQUIPMENT TELEMETRY</div>
+              <ul class="telemetry-spec-list" id="zone-equipment-list">
+                <li><span>RACK SPEC</span><strong>8× Eleiko Prestera Combo Racks</strong></li>
+                <li><span>BARBELLS</span><strong>IWF 20kg Power &amp; Weightlifting Bars</strong></li>
+                <li><span>TRANSDUCERS</span><strong>GymAware VBT Optical Tethers Active</strong></li>
+                <li><span>PLATES</span><strong>3,800 kg Calibrated Steel + Bumpers</strong></li>
+              </ul>
+            </div>
+
+            <!-- Etiquette Specs -->
+            <div class="telemetry-etiquette-box">
+              <div class="spec-sec-title">ZONE ETIQUETTE SPECS</div>
+              <p id="zone-etiquette-text">
+                Strip all bars to 20kg empty shaft upon completion. Re-rack bumper plates in strict IWF chromatic order (25kg Red innermost → 5kg White outermost). Chalk remains over the oak platform.
+              </p>
+            </div>
+
+            <div class="telemetry-card-footer">
+              <span>SLAB RATING: 50 KN/M²</span>
+              <a href="#contact" class="telemetry-book-link">RESERVE PLATFORM →</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4D. COACHING STAFF ("Coaches")
+         ===================================================================== -->
+    <section class="section-coaches" id="coaches">
+      <div class="container">
+        <div class="section-header-bar">
+          <div class="section-index-group">
+            <span class="section-index">SEC. 04 // DIRECTORATE</span>
+            <h2 class="section-heading">PERFORMANCE COACHING STAFF</h2>
+          </div>
+          <div class="coach-carousel-controls">
+            <span class="mono-note">MONOCHROME DOSSIER // VERIFIED TOTALS</span>
+          </div>
+        </div>
+
+        <div class="coaches-grid" id="coaches-grid">
+          <!-- Coach 01 -->
+          <article class="coach-card" data-coach-id="01">
+            <div class="coach-portrait-wrap">
+              <canvas class="coach-portrait-canvas" data-portrait="01" width="420" height="480" aria-label="Portrait of Marcus Vance"></canvas>
+              <div class="portrait-overlay-meta">
+                <span class="coach-id-badge">DIR // 01</span>
+                <span class="coach-clearance">CSCS · IWF LVL 3</span>
+              </div>
+              <div class="coach-pr-badges">
+                <span class="pr-badge">SQ 295KG</span>
+                <span class="pr-badge">BP 192KG</span>
+                <span class="pr-badge">DL 335KG</span>
+              </div>
+            </div>
+            <div class="coach-body">
+              <div class="coach-spec-tags">
+                <span>MAXIMAL STRENGTH</span>
+                <span>BIOMECHANICS</span>
+              </div>
+              <h3 class="coach-name">MARCUS VANCE</h3>
+              <p class="coach-role">Head of Strength &amp; Force Diagnostics</p>
+              <p class="coach-bio">
+                Former national powerlifting director specializing in velocity-based peaking blocks and axial loading mechanics.
+              </p>
+              <button type="button" class="btn-inspect-profile" data-coach-modal="01">
+                <span>Inspect Profile</span>
+                <span class="btn-code">[DOS-01]</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Coach 02 -->
+          <article class="coach-card" data-coach-id="02">
+            <div class="coach-portrait-wrap">
+              <canvas class="coach-portrait-canvas" data-portrait="02" width="420" height="480" aria-label="Portrait of Elena Rostova"></canvas>
+              <div class="portrait-overlay-meta">
+                <span class="coach-id-badge">OLY // 02</span>
+                <span class="coach-clearance">MS BIOMECHANICS</span>
+              </div>
+              <div class="coach-pr-badges">
+                <span class="pr-badge">SN 118KG</span>
+                <span class="pr-badge">CJ 146KG</span>
+                <span class="pr-badge">FSQ 185KG</span>
+              </div>
+            </div>
+            <div class="coach-body">
+              <div class="coach-spec-tags">
+                <span>OLYMPIC LIFTING</span>
+                <span>BAR TRAJECTORY</span>
+              </div>
+              <h3 class="coach-name">ELENA ROSTOVA</h3>
+              <p class="coach-role">Director of Barbell Club &amp; Weightlifting</p>
+              <p class="coach-bio">
+                14 years of international platform coaching focused on second-pull impulse generation and overhead catch kinematics.
+              </p>
+              <button type="button" class="btn-inspect-profile" data-coach-modal="02">
+                <span>Inspect Profile</span>
+                <span class="btn-code">[DOS-02]</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Coach 03 -->
+          <article class="coach-card" data-coach-id="03">
+            <div class="coach-portrait-wrap">
+              <canvas class="coach-portrait-canvas" data-portrait="03" width="420" height="480" aria-label="Portrait of Soren Lindqvist"></canvas>
+              <div class="portrait-overlay-meta">
+                <span class="coach-id-badge">CND // 03</span>
+                <span class="coach-clearance">EX. PHYSIOLOGIST</span>
+              </div>
+              <div class="coach-pr-badges">
+                <span class="pr-badge">MU +40KG</span>
+                <span class="pr-badge">DIP +90KG</span>
+                <span class="pr-badge">2K 5:58</span>
+              </div>
+            </div>
+            <div class="coach-body">
+              <div class="coach-spec-tags">
+                <span>CALISTHENICS</span>
+                <span>ENERGY SYSTEMS</span>
+              </div>
+              <h3 class="coach-name">SÖREN LINDQVIST</h3>
+              <p class="coach-role">Lead Conditioning &amp; Relative Strength Architect</p>
+              <p class="coach-bio">
+                Architects weighted straight-arm scapular strength progressions and lactate threshold turf protocols.
+              </p>
+              <button type="button" class="btn-inspect-profile" data-coach-modal="03">
+                <span>Inspect Profile</span>
+                <span class="btn-code">[DOS-03]</span>
+              </button>
+            </div>
+          </article>
+
+          <!-- Coach 04 -->
+          <article class="coach-card" data-coach-id="04">
+            <div class="coach-portrait-wrap">
+              <canvas class="coach-portrait-canvas" data-portrait="04" width="420" height="480" aria-label="Portrait of Dr. Kenji Takahashi"></canvas>
+              <div class="portrait-overlay-meta">
+                <span class="coach-id-badge">MED // 04</span>
+                <span class="coach-clearance">DPT · NEUROMUSCULAR</span>
+              </div>
+              <div class="coach-pr-badges">
+                <span class="pr-badge">DL 280KG</span>
+                <span class="pr-badge">SQ 240KG</span>
+                <span class="pr-badge">YOKE 400KG</span>
+              </div>
+            </div>
+            <div class="coach-body">
+              <div class="coach-spec-tags">
+                <span>STRUCTURAL ARMOR</span>
+                <span>RECON &amp; RETURN</span>
+              </div>
+              <h3 class="coach-name">DR. KENJI TAKAHASHI</h3>
+              <p class="coach-role">Chief of Tissue Resilience &amp; Reconstruction</p>
+              <p class="coach-bio">
+                Bridges orthopedic sports medicine with heavy eccentric loading to bulletproof tendons and spinal erectors.
+              </p>
+              <button type="button" class="btn-inspect-profile" data-coach-modal="04">
+                <span>Inspect Profile</span>
+                <span class="btn-code">[DOS-04]</span>
+              </button>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- =====================================================================
+         4E. MEMBERSHIP TIERS & BOOKING FORM ("Join Booking" / #contact)
+         ===================================================================== -->
+    <section class="section-booking" id="contact">
+      <div class="container">
+        <div class="section-header-bar">
+          <div class="section-index-group">
+            <span class="section-index">SEC. 05 // ALLOCATION</span>
+            <h2 class="section-heading">MEMBERSHIP TIERS &amp; JOIN BOOKING</h2>
+          </div>
+          <div class="section-meta-right">
+            <span>CAP: 250 ACTIVE LIFTERS MAX</span>
+          </div>
+        </div>
+
+        <div class="booking-layout-grid">
+          <!-- Left Column: Brutalist Membership Tiers -->
+          <div class="tiers-column">
+            <div class="tiers-intro">
+              SELECT ALLOCATION TIER TO SYNC WITH ONBOARDING DISPATCH:
+            </div>
+
+            <div class="tier-cards-stack" role="radiogroup" aria-label="Membership Tiers">
+              <!-- Tier 1 -->
+              <div class="tier-card" data-tier="OPEN PLATFORM" tabindex="0" role="radio" aria-checked="false">
+                <div class="tier-stripe stripe-green"></div>
+                <div class="tier-top">
+                  <span class="tier-code">TIER 01 // AUTONOMOUS</span>
+                  <span class="tier-price">CHF 190<small>/MO</small></span>
+                </div>
+                <h3 class="tier-name">Open Platform</h3>
+                <p class="tier-desc">Full floor access across all 8 competition racks, calibrated plate stacks, and 40m turf track during staffed hours.</p>
+                <ul class="tier-perks">
+                  <li>Initial Force-Plate Baseline Assessment</li>
+                  <li>Unlimited Open Lifting (05:30 – 22:00)</li>
+                  <li>Cold Plunge &amp; Sauna Access</li>
+                </ul>
+              </div>
+
+              <!-- Tier 2 (Selected Default) -->
+              <div class="tier-card active" data-tier="BARBELL CLUB + VBT" tabindex="0" role="radio" aria-checked="true">
+                <div class="tier-stripe stripe-blue"></div>
+                <div class="tier-top">
+                  <span class="tier-code">TIER 02 // PROGRAMMED [RECOMMENDED]</span>
+                  <span class="tier-price">CHF 310<small>/MO</small></span>
+                </div>
+                <h3 class="tier-name">Barbell Club + VBT</h3>
+                <p class="tier-desc">Individualized 12-week programming blocks, coached Barbell Club sessions, and GymAware velocity tracking on every top set.</p>
+                <ul class="tier-perks">
+                  <li>Monthly Force-Velocity Re-Profiling</li>
+                  <li>All Coached Strength &amp; Olympic Blocks</li>
+                  <li>Dedicated Personal Chalk &amp; Belt Locker</li>
+                </ul>
+              </div>
+
+              <!-- Tier 3 -->
+              <div class="tier-card" data-tier="BLACK CARD 24/7 LAB" tabindex="0" role="radio" aria-checked="false">
+                <div class="tier-stripe stripe-red"></div>
+                <div class="tier-top">
+                  <span class="tier-code">TIER 03 // UNRESTRICTED</span>
+                  <span class="tier-price">CHF 540<small>/MO</small></span>
+                </div>
+                <h3 class="tier-name">Black Card // 24/7 Lab</h3>
+                <p class="tier-desc">Biometric 24/7 facility key, 1-on-1 weekly biomechanics review with Directorate coaches, and priority platform reservation.</p>
+                <ul class="tier-perks">
+                  <li>24/7 Biometric Keycard Access</li>
+                  <li>Weekly 1-on-1 Coaching &amp; Manual Therapy</li>
+                  <li>Custom Competition Peaking &amp; Handler Support</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: High-Contrast Structured Form ("Join Booking") -->
+          <div class="booking-form-column">
+            <div class="booking-form-card">
+              <div class="form-card-header">
+                <div>
+                  <span class="form-doc-code">FORM // KILO-ONBOARD-01</span>
+                  <h3 class="form-title">Join Booking &amp; Assessment</h3>
+                </div>
+                <span class="selected-tier-pill" id="form-selected-tier">BARBELL CLUB + VBT</span>
+              </div>
+
+              <form id="join-booking-form" class="chalk-form" novalidate>
+                <!-- Name Input -->
+                <div class="form-field">
+                  <label for="booking-name" class="field-label">
+                    <span>01 // ATHLETE FULL NAME</span>
+                    <span class="field-req">REQUIRED</span>
+                  </label>
+                  <input
+                    type="text"
+                    id="booking-name"
+                    name="name"
+                    class="chalk-input"
+                    placeholder="e.g., LUKAS WEBER"
+                    required
+                  />
+                </div>
+
+                <!-- Email Input -->
+                <div class="form-field">
+                  <label for="booking-email" class="field-label">
+                    <span>02 // TELEMETRY DISPATCH EMAIL</span>
+                    <span class="field-req">REQUIRED</span>
+                  </label>
+                  <input
+                    type="email"
+                    id="booking-email"
+                    name="email"
+                    class="chalk-input"
+                    placeholder="athlete@domain.ch"
+                    required
+                  />
+                </div>
+
+                <!-- Preferred Time / Slot -->
+                <div class="form-field">
+                  <label for="booking-slot" class="field-label">
+                    <span>03 // PREFERRED TIME / SLOT</span>
+                    <span class="field-req">ASSESSMENT WINDOW</span>
+                  </label>
+                  <select id="booking-slot" name="slot" class="chalk-select" required>
+                    <option value="05:30 — DAWN HEAVY BLOCK (05:30 - 08:00)">05:30 — DAWN HEAVY BLOCK (05:30 - 08:00)</option>
+                    <option value="09:30 — MORNING VELOCITY LAB (09:30 - 12:00)" selected>09:30 — MORNING VELOCITY LAB (09:30 - 12:00)</option>
+                    <option value="13:00 — MIDDAY OPEN PLATFORM (13:00 - 16:00)">13:00 — MIDDAY OPEN PLATFORM (13:00 - 16:00)</option>
+                    <option value="17:30 — EVENING BARBELL CLUB (17:30 - 20:00)">17:30 — EVENING BARBELL CLUB (17:30 - 20:00)</option>
+                    <option value="20:30 — NIGHT OWL IRON SESSION (20:30 - 22:30)">20:30 — NIGHT OWL IRON SESSION (20:30 - 22:30)</option>
+                  </select>
+                </div>
+
+                <!-- Experience Level (Novice / Intermediate / Advanced dropdown) -->
+                <div class="form-field">
+                  <label for="booking-experience" class="field-label">
+                    <span>04 // EXPERIENCE LEVEL</span>
+                    <span class="field-req">SELECT CLEARANCE</span>
+                  </label>
+                  <select id="booking-experience" name="experience" class="chalk-select" required>
+                    <option value="Novice">Novice — Building foundational barbell mechanics (&lt; 1 yr)</option>
+                    <option value="Intermediate" selected>Intermediate — Structured periodization &amp; barbell proficiency (1–4 yrs)</option>
+                    <option value="Advanced">Advanced — Competitive Powerlifting / Weightlifting (4+ yrs)</option>
+                  </select>
+                </div>
+
+                <div class="form-telemetry-notice">
+                  <span>INCLUDED IN ONBOARDING:</span>
+                  <span>60-MIN FORCE-PLATE DIAGNOSTIC + BARBELL CALIBRATION</span>
+                </div>
+
+                <button type="submit" class="btn-join-now" id="btn-join-submit">
+                  <span>JOIN NOW</span>
+                  <span class="submit-tag">LOCK PLATFORM →</span>
+                </button>
+              </form>
+
+              <!-- Dynamic Confirmation Ticket (Shown on Submit) -->
+              <div class="booking-pass-output" id="booking-pass-output" hidden>
+                <div class="pass-top">
+                  <span class="pass-status">✓ PLATFORM CLEARANCE ISSUED</span>
+                  <span class="pass-id" id="pass-id-code">REF #KILO-8841</span>
+                </div>
+                <h4 class="pass-athlete" id="pass-athlete-name">ATHLETE</h4>
+                <div class="pass-details-grid">
+                  <div>
+                    <span>TIER</span>
+                    <strong id="pass-tier">BARBELL CLUB + VBT</strong>
+                  </div>
+                  <div>
+                    <span>EXPERIENCE</span>
+                    <strong id="pass-exp">Intermediate</strong>
+                  </div>
+                  <div>
+                    <span>SLOT</span>
+                    <strong id="pass-slot">09:30 — MORNING LAB</strong>
+                  </div>
+                  <div>
+                    <span>ASSIGNED RACK</span>
+                    <strong>PLATFORM 04 // ELEIKO IWF</strong>
+                  </div>
+                </div>
+                <button type="button" class="btn-reset-form" id="btn-reset-booking">BOOK ANOTHER ATHLETE</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =====================================================================
+       4F. TECHNICAL MINIMAL FOOTER
+       ===================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <!-- Top Olympic Bumper Accent Strip -->
+      <div class="footer-plate-bar" aria-hidden="true">
+        <span class="fp-white">5KG</span>
+        <span class="fp-green">10KG</span>
+        <span class="fp-yellow">15KG</span>
+        <span class="fp-blue">20KG</span>
+        <span class="fp-red">25KG</span>
+      </div>
+
+      <div class="footer-grid">
+        <!-- Col 1: Brand Mark & Coordinates -->
+        <div class="footer-col-brand">
+          <div class="footer-logo">KILO<span>//</span>01</div>
+          <p class="footer-tagline">
+            RAW ATHLETICS · SWISS PRECISION · CALIBRATED STEEL.
+          </p>
+          <div class="footer-coords-box">
+            <div>LAT: 47° 23' 18.4" N // LON: 08° 31' 04.9" E</div>
+            <div>HARDTURMSTRASSE 240, 8005 ZÜRICH — SECTOR B</div>
+            <div>ELEVATION: 408M ASL · SLAB TEMP: 18.5°C</div>
+          </div>
+        </div>
+
+        <!-- Col 2: Opening Hours Matrix -->
+        <div class="footer-col-hours">
+          <div class="footer-col-title">OPENING HOURS MATRIX</div>
+          <table class="hours-matrix">
+            <tbody>
+              <tr>
+                <td>MON – FRI // STAFFED</td>
+                <td>05:30 – 22:30</td>
+              </tr>
+              <tr>
+                <td>SAT – SUN // STAFFED</td>
+                <td>07:00 – 20:00</td>
+              </tr>
+              <tr>
+                <td>BARBELL CLUB BLOCKS</td>
+                <td>06:30 / 12:00 / 18:00</td>
+              </tr>
+              <tr>
+                <td>BLACK CARD BIOMETRIC</td>
+                <td>24 / 7 / 365</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Col 3: Navigation & Legal -->
+        <div class="footer-col-links">
+          <div class="footer-col-title">INDEX &amp; PROTOCOLS</div>
+          <ul class="footer-links-list">
+            <li><a href="#home">01 // Home — Barbell Load</a></li>
+            <li><a href="#assess">02 // Assess — Force Diagnostics</a></li>
+            <li><a href="#programs">03 // Programs — Training Blocks</a></li>
+            <li><a href="#the-floor">04 // The Floor — 3D Cutaway</a></li>
+            <li><a href="#contact">05 // Join Booking — Allocation</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Social & Legal Dispatch -->
+        <div class="footer-col-social">
+          <div class="footer-col-title">EXTERNAL CHANNELS</div>
+          <div class="social-pills">
+            <a href="#contact" class="social-pill">INSTAGRAM ↗</a>
+            <a href="#contact" class="social-pill">YOUTUBE LAB ↗</a>
+            <a href="#contact" class="social-pill">OPENPOWERLIFTING ↗</a>
+            <a href="#contact" class="social-pill">STRAVA CLUB ↗</a>
+          </div>
+          <div class="footer-legal-links">
+            <a href="#contact">Platform Waiver</a>
+            <a href="#contact">IWF Calibration Certs</a>
+            <a href="#contact">Privacy Spec</a>
+            <a href="#contact">Imprint</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom-bar">
+        <span>© 2026 KILO // 01 STRENGTH &amp; CONDITIONING LAB. ALL RIGHTS RESERVED.</span>
+        <span>LIFT A LITTLE MORE THAN LAST TIME.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================================
+       TECHNICAL DOSSIER MODAL (For Programs, Coaches, and Log In / Sign Up)
+       ===================================================================== -->
+  <div class="brutalist-modal-backdrop" id="dossier-modal" hidden aria-modal="true" role="dialog" aria-labelledby="modal-title">
+    <div class="brutalist-modal-card">
+      <div class="modal-top-bar">
+        <span class="modal-ref-code" id="modal-ref-code">SPEC // DOSSIER</span>
+        <button type="button" class="modal-close-btn" id="modal-close-btn" aria-label="Close Modal">✕ ESC</button>
+      </div>
+      <div class="modal-content-body" id="modal-content-body">
+        <!-- Populated dynamically by main.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Application Entry (ES Module) -->
+  <script type="module" src="./js/main.js"></script>
+</body>
+</html>
